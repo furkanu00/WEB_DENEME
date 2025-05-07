@@ -6,17 +6,17 @@ EXPOSE 80
 # Uygulama imajını derle
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["HuaweiApiDemo/HuaweiApiDemo.csproj", "HuaweiApiDemo/"]
-RUN dotnet restore "HuaweiApiDemo/HuaweiApiDemo.csproj"
+COPY ["WEB_DENEME/WEB_DENEME.csproj", "WEB_DENEME/"]
+RUN dotnet restore "WEB_DENEME/WEB_DENEME.csproj"
 COPY . . 
-WORKDIR "/src/HuaweiApiDemo"
-RUN dotnet build "HuaweiApiDemo.csproj" -c Release -o /app/build
+WORKDIR "/src/WEB_DENEME"
+RUN dotnet build "WEB_DENEME.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "HuaweiApiDemo.csproj" -c Release -o /app/publish
+RUN dotnet publish "WEB_DENEME.csproj" -c Release -o /app/publish
 
 # Son imajı çalıştır
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "HuaweiApiDemo.dll"]
+ENTRYPOINT ["dotnet", "WEB_DENEME.dll"]
